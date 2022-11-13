@@ -49,4 +49,4 @@ RUN mkdir /tmp/mcr_install \
     && chmod -R a+x ${SPMROOT} \
     && cp -l ${SPMROOT}/standalone/cat_standalone.sh /usr/local/bin/ 
 
-USER $MAMBA_USER
+# USER $MAMBA_USER
