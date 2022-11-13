@@ -9,7 +9,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER pyproject.toml README.md src /tmp/cat12_app
 COPY --chown=$MAMBA_USER:$MAMBA_USER src/cat12_app/data/run_spm12.sh /tmp/run_spm12.sh
 
 ENV MAMBA_DOCKERFILE_ACTIVATE=1 
-RUN micromamba install --name base --yes --file /tmp/env.yml \
+RUN micromamba install --quiet --name base --yes --file /tmp/env.yml \
     && pip install /tmp/cat12_app/ \
     && micromamba clean --all --yes \
     && rm -rf ~/.cache/pip/* \
@@ -49,4 +49,4 @@ RUN mkdir /tmp/mcr_install \
     && chmod -R a+x ${SPMROOT} \
     && cp -l ${SPMROOT}/standalone/cat_standalone.sh /usr/local/bin/ 
 
-# USER $MAMBA_USER
+USER $MAMBA_USER
