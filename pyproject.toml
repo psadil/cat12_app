@@ -1,0 +1,24 @@
+[project]
+name = "biomarkers"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "click",
+    "pydantic>=1.10.2",
+    "prefect>=2.6",
+    "prefect-shell",
+    "click>=8.1",
+    "prefect-dask>=0.2",
+    "cat12_models @ git+https://github.com/psadil/cat12_models.git"
+]
+
+[project.scripts]
+cat12 = "cat12_app.cat12_app:main"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+"cat12_app.data" = ["*.m"]
+

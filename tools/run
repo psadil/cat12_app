@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# example run
+docker run --rm -v "$(pwd)"/bids:/bids -v "$(pwd)"/out:/out \
+    --net=host  \
+    -e PREFECT_API_URL \
+    -e PREFECT_API_KEY \
+    1cff619003ed bash -c \
+        "prefect config set PREFECT_API_URL=$PREFECT_API_URL \
+        && prefect config set PREFECT_API_KEY=$PREFECT_API_KEY \
+        && cat12 --bids-dir /bids --output-dir /out"
