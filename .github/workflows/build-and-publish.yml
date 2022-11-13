@@ -25,12 +25,12 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.1.1
         with:
-          images: psadil/dicom_reader_app
+          images: psadil/cat12_app
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3.2.0
         with:
           context: .
           push: true
-          tags: psadil/cat12:221113
+          tags: psadil/cat12_app:221113
           labels: ${{ steps.meta.outputs.labels }}
