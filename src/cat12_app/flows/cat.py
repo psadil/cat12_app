@@ -10,7 +10,7 @@ from cat12_models import models
 from .. import utils
 
 
-@prefect.task
+@prefect.task()
 async def run(image: Path, out: Path) -> None:
     # if the output already exists, we don't want this to run again.
     if not (out / image.name).exists():
