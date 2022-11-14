@@ -28,11 +28,12 @@ ENV SPMROOT=/opt/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux
 
 USER root
 
-# RUN apt-get update \
-#     && apt-get -y install libxext6 libxt6 \
-#     && apt-get clean \
-#     && apt-get autoremove \
-#     && rm -rf /var/lib/apt/lists/* /var/tmp/*
+# libxext6
+RUN apt-get update \
+    && apt-get -y install libxt6 \
+    && apt-get clean \
+    && apt-get autoremove \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
 RUN mkdir /tmp/mcr_install \
     && wget -q -P /tmp/mcr_install https://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_${MATLAB_VERSION}_glnxa64_installer.zip \
