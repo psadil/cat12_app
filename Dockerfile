@@ -9,7 +9,7 @@ COPY --chown=$MAMBA_USER:$MAMBA_USER pyproject.toml README.md src /tmp/cat12_app
 COPY --chown=$MAMBA_USER:$MAMBA_USER src/cat12_app/data/run_spm12.sh /tmp/run_spm12.sh
 
 ENV MAMBA_DOCKERFILE_ACTIVATE=1 
-RUN micromamba install --name base --yes --file /tmp/env.yml \
+RUN micromamba install --quiet --name base --yes --file /tmp/env.yml \
     && pip install /tmp/cat12_app/ \
     && micromamba clean --all --yes \
     && rm -rf ~/.cache/pip/* \
@@ -28,19 +28,19 @@ ENV SPMROOT=/opt/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux
 
 USER root
 
-RUN apt-get update \
-    && apt-get -y install libxext6 libxt6 \
-    && apt-get clean \
-    && apt-get autoremove \
-    && rm -rf /var/lib/apt/lists/* /var/tmp/*
+# RUN apt-get update \
+#     && apt-get -y install libxt6 libxext6 \
+#     && apt-get clean \
+#     && apt-get autoremove \
+#     && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
 RUN mkdir /tmp/mcr_install \
-    && wget --progress=bar:force -P /tmp/mcr_install https://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_${MATLAB_VERSION}_glnxa64_installer.zip \
+    && wget -q -P /tmp/mcr_install https://ssd.mathworks.com/supportfiles/downloads/R2017b/deployment_files/R2017b/installers/glnxa64/MCR_${MATLAB_VERSION}_glnxa64_installer.zip \
     && unzip -q /tmp/mcr_install/MCR_${MATLAB_VERSION}_glnxa64_installer.zip -d /tmp/mcr_install \
     && rm /tmp/mcr_install/*zip \
     && /tmp/mcr_install/install -destinationFolder ${MCRROOT} -agreeToLicense yes -mode silent \
     && rm -r /tmp/mcr_install /tmp/mathworks*  \
-    && wget --progress=bar:force -P /tmp http://www.neuro.uni-jena.de/cat12/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux.zip \
+    && wget -q -P /tmp http://www.neuro.uni-jena.de/cat12/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux.zip \
     && unzip -q /tmp/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux.zip -d /opt \
     && rm /tmp/${CAT_FULLVERSION}_${MATLAB_VERSION}_MCR_Linux.zip \
     && mv /tmp/run_spm12.sh ${SPMROOT}/run_spm12.sh \
@@ -49,4 +49,4 @@ RUN mkdir /tmp/mcr_install \
     && chmod -R a+x ${SPMROOT} \
     && cp -l ${SPMROOT}/standalone/cat_standalone.sh /usr/local/bin/ 
 
-# USER $MAMBA_USER
+USER $MAMBA_USER
